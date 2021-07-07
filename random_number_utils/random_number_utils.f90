@@ -24,7 +24,7 @@
 !do not apply to the original software distribution.
  
 !5. Redistribution of this source code, including any modifications, may 
-!not be intentionally obfuscated.
+! not be intentionally obfuscated.
 
 !6. Other code may make use of this software, in whole or in part, without 
 !restriction, provided that it does not apply any restriction to this 
@@ -37,18 +37,14 @@
 !CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
 !EXEMPLARARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
 !PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; 
-!OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+! OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 !WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR 
 !OTHERWISE), ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 !ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Module random_number_utils 
 
-! Define user procedures here. Currently contains factorial, binomial
-! coefficients, gamma functions for non F2008 compilers, an l2norm
-! wrapper to replace norm2, andfunctions for determining if
-! two real values are numerically almost equal, within a tolerance
-! or almost zero. 
+! Some random number generation utilities.
 
   USE ISO_FORTRAN_ENV, ONLY: DP=>REAL64, INT32
  
