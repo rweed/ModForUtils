@@ -9,6 +9,7 @@ This repository contains several utility programs either written from scratch or
 There is a Makefile in each directory that is specific to each utility. The default compiler is the Intel ifort compiler but another Fortran compiler can be selected by typeing (for example)
 
   cd root_finders
+  
   make FC=gfortran
 
 Currently each utility must be built manually and the required module and object files copied to the users directories.
