@@ -1,5 +1,5 @@
 !  
-!  Copyright (C) 2021, Mississippi State University.
+!  Copyright (C) 2021, Richard Weed.
 !  All rights reserved.
 !  
 !  Redistribution and use in source and binary forms, with or without 
@@ -12,7 +12,7 @@
 !  this list of conditions and the following disclaimer in the documentation 
 !  and/or other materials provided with the distribution.
 !  
-!  3. Neither the name of the Mississippi State University nor the names of 
+!  3. Neither the name of the Copyright holders nor the names of 
 !  its contributors may be used to endorse or promote products derived from 
 !  this software without specific prior written permission.
 !  
