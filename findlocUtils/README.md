@@ -7,12 +7,12 @@ functions for Fortran compilers that haven't implemented the Fortran 2008
 FINDLOC function. Currently 1D, 2D, and 3D arrays of INT32, INT64, REAL32,
 REAL64 and LOGICAL types are supported. The functions provide support for the
 MASK, BACK, and DIM optional arguments. The test program testfindloc.F90
-illustrates how the functions are accessed and used. In particular, two
+illustrates how the functions are accessed and used. In particular, to
 access the findloc replacements the user should add:
 
  USE findlocUtils, ONLY: FINDLOC=>findloc_no08
 
-to there codes prior to using the findloc utitlities. findloc_no08 is a
+to their codes prior to using the findloc utilities. findloc_no08 is a
 generic interface that overloads the different individual findloc utilities
 
 To compile the code with the default Intel compiler, the user should type
