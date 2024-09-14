@@ -4,8 +4,8 @@ SHELL=/bin/sh
 .SUFFIXES: .o .F90 .f90
 
 FC=ifx
-FCFLAGS=-O2 -march=native
-FXFLAGS=-O0 -march=native
+FCFLAGS=-O2 -march=native -D__linux__
+FXFLAGS=-O2 -march=native -D__linux__
 
 # For Linux OS add -D__linux__ to FCFLAGS and FXFLAGS
 

@@ -128,6 +128,31 @@ Program test_timers
   Write(*,'( " delta time SC                    = ", g0.15)') delta
   Print *,''
 
+  Print *,''
+  Print *,' DATE_AND_TIME increment'
+  Print *,''
+  time_e = 0.0_WP
+  time_s = 0.0_WP
+  Call timer_dt(time_s)
+  Do
+    Call timer_dt(time_e)
+    If (time_e > time_s) EXIT
+  End Do
+  delta = time_e - time_s
+  Write(*,'( " delta time DT increment                    = ", g0.15)') delta
+  Print *,''
+  Print *,' SYSTEM CLOCK increment'
+  Print *,''
+  time_e = 0.0_WP
+  time_s = 0.0_WP
+  Call timer_sc(time_s)
+  Do
+    Call timer_sc(time_e)
+    If (time_e > time_s) EXIT
+  End Do
+  delta = time_e - time_s
+  Write(*,'( " delta time SC increment                    = ", g0.15)') delta
+ 
   Stop
 
 End Program test_timers

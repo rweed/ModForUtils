@@ -20,7 +20,12 @@
 
   The test program defaults to compiling with -O0 optimization to give some
   realisitic time values. Compiling with higher optimization can lead to 
-  some of the results returning 0 to 15 decimals places.
+  some of the results returning 0 to 15 decimals places. This is thought to be
+  due to SYSTEM_CLOCK and DATE_AND_TIME having a finite interval between when
+  the results returned by these routines are updated. For -02 optimization, the
+  time taken in the summation loops is probably less than the update interval
+  for these routines resulting in the same value for the starting and ending
+  times used in the test program
 
   These programs were compiled and tested on a Linux Mint 21.3 system running on  an AMD Ryzen 5 5600x processor with the following compilers
 
