@@ -4,13 +4,13 @@ Module timers
   USE ISO_C_BINDING,   ONLY: C_INT, C_LONG, C_PTR, C_NULL_PTR, C_DOUBLE
 
   Implicit NONE
-
+  PRIVATE
 ! Define some clock ids for C clock_gettime function
 
   Integer(C_INT), Parameter :: CLOCK_REALTIME           = 0_C_INT
   Integer(C_INT), Parameter :: CLOCK_MONOTONIC          = 1_C_INT
-#ifdef __linux__ 
 ! These are Linux only
+#ifdef __linux__
   Integer(C_INT), Parameter :: CLOCK_PROCESS_CPUTIME_ID = 2_C_INT
   Integer(C_INT), Parameter :: CLOCK_THREAD_CPUTIME_ID  = 3_C_INT
   Integer(C_INT), Parameter :: CLOCK_TAI                = 11_C_INT
@@ -53,6 +53,16 @@ Module timers
 
     End Function clock_gettime_c
   End Interface
+
+  Public :: timer_dt, timer_gtd, timer_cgt, timer_sc
+  Public :: CLOCK_REALTIME
+  Public :: CLOCK_MONOTONIC
+! These are Linux only
+#ifdef __linux__
+  Public :: CLOCK_PROCESS_CPUTIME_ID
+  Public :: CLOCK_THREAD_CPUTIME_ID
+  Public :: CLOCK_TAI
+#endif
 
 Contains
 

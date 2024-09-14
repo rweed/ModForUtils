@@ -3,20 +3,28 @@ Program test_timers
   USE ISO_FORTRAN_ENV, WP=>REAL64 
   USE timers
 
-#define __JMAX__ 10000
-#define __IMAX__ 10000
+#ifndef __JMAX__
+  #define __JMAX__ 10000
+#endif
+#ifndef __IMAX__
+ #define __IMAX__ 10000
+#endif
 
   Implicit NONE
 
+  Integer  :: niters
   Real(WP) :: time_s, time_e, sum, delta
+
+  Character(22) :: buf
 
   Integer :: i, j
 
+  niters = (__IMAX__)*(__JMAX__)
   Print *,'' 
   Print *,' *** Test of Fortran and C timer routines ***'
-  Print *,'' 
-  Print *,' C gettimeofday'
-  Print *,'' 
+  Print *,''
+  Write (*, '(" Summation loops elapsed times for ",i0," iterations")') niters 
+  Print *,''
   sum    = 0.0_WP
   time_e = 0.0_WP
   time_s = 0.0_WP
@@ -28,11 +36,9 @@ Program test_timers
   End Do 
   Call timer_gtd(time_e)
   delta = time_e - time_s
-  Write(*,'( " delta time C ctd                 = ", g0.15)') delta 
+  Write(*,'( " C gettimeofday                   = ", 1PE22.15)') delta 
+  Write(buf,'(1PE22.15)') sum
 
-  Print *,'' 
-  Print *,' C clock_gettime with MONOTONIC clock'
-  Print *,'' 
   sum    = 0.0_WP
   time_e = 0.0_WP
   time_s = 0.0_WP
@@ -44,11 +50,9 @@ Program test_timers
   End Do 
   Call timer_cgt(time_e, CLOCK_MONOTONIC)
   delta = time_e - time_s
-  Write(*,'( " delta time C cgt monotonic       = ", g0.15)') delta 
+  Write(*,'( " C clock_gettime (MONOTONIC)      = ", 1PE22.15)') delta 
+  Write(buf,'(1PE22.15)') sum
 
-  Print *,'' 
-  Print *,' C clock_gettime with REALTIME clock'
-  Print *,'' 
   sum    = 0.0_WP
   time_e = 0.0_WP
   time_s = 0.0_WP
@@ -60,11 +64,10 @@ Program test_timers
   End Do 
   Call timer_cgt(time_e, CLOCK_REALTIME)
   delta = time_e - time_s
-  Write(*,'( " delta time C cgt realtime        = ", g0.15)') delta 
+  Write(*,'( " C clock_gettime (REALTIME)       = ", 1PE22.15)') delta 
+  Write(buf,'(1PE22.15)') sum
+
 #ifdef __linux__ 
-  Print *,'' 
-  Print *,' C clock_gettime with CLOCK_THREAD_CPUTIME_ID clock (Linux only)'
-  Print *,'' 
   sum    = 0.0_WP
   time_e = 0.0_WP
   time_s = 0.0_WP
@@ -76,12 +79,10 @@ Program test_timers
   End Do 
   Call timer_cgt(time_e, CLOCK_THREAD_CPUTIME_ID)
   delta = time_e - time_s
-  Write(*,'( " delta time C cgt thread cputime  = ", g0.15)') delta
+  Write(*,'( " C clock_gettime (THREAD_CPUTIME) = ", 1PE22.15," Linux only")') delta 
+  Write(buf,'(1PE22.15)') sum
 #endif
  
-  Print *,'' 
-  Print *,' DATE_AND_TIME'
-  Print *,'' 
   sum    = 0.0_WP
   time_e = 0.0_WP
   time_s = 0.0_WP
@@ -93,11 +94,9 @@ Program test_timers
   End Do 
   Call timer_dt(time_e)
   delta = time_e - time_s
-  Write(*,'( " delta time DT                    = ", g0.15)') delta 
+  Write(*,'( " DATE_AND_TIME                    = ", 1PE22.15)') delta 
+  Write(buf,'(1PE22.15)') sum
 
-  Print *,'' 
-  Print *,' CPU_TIME'
-  Print *,'' 
   sum    = 0.0_WP
   time_e = 0.0_WP
   time_s = 0.0_WP
@@ -109,11 +108,9 @@ Program test_timers
   End Do 
   Call CPU_TIME(time_e)
   delta = time_e - time_s
-  Write(*,'( " delta time CPU                   = ", g0.15)') delta 
+  Write(*,'( " CPU_TIME                         = ", 1PE22.15)') delta 
+  Write(buf,'(1PE22.15)') sum
 
-  Print *,'' 
-  Print *,' SYSTEM_CLOCK'
-  Print *,'' 
   sum    = 0.0_WP
   time_e = 0.0_WP
   time_s = 0.0_WP
@@ -125,11 +122,11 @@ Program test_timers
   End Do 
   Call timer_sc(time_e)
   delta = time_e - time_s
-  Write(*,'( " delta time SC                    = ", g0.15)') delta
-  Print *,''
+  Write(*,'( " SYSTEM_CLOCK                     = ", 1PE22.15)') delta
+  Write(buf,'(1PE22.15)') sum
 
   Print *,''
-  Print *,' DATE_AND_TIME increment'
+  Print *,'DATE_AND_TIME and SYSTEM_CLOCK increments'
   Print *,''
   time_e = 0.0_WP
   time_s = 0.0_WP
@@ -139,10 +136,7 @@ Program test_timers
     If (time_e > time_s) EXIT
   End Do
   delta = time_e - time_s
-  Write(*,'( " delta time DT increment                    = ", g0.15)') delta
-  Print *,''
-  Print *,' SYSTEM CLOCK increment'
-  Print *,''
+  Write(*,'( " DATE_AND_TIME increment          = ", 1PE22.15)') delta
   time_e = 0.0_WP
   time_s = 0.0_WP
   Call timer_sc(time_s)
@@ -151,8 +145,8 @@ Program test_timers
     If (time_e > time_s) EXIT
   End Do
   delta = time_e - time_s
-  Write(*,'( " delta time SC increment                    = ", g0.15)') delta
- 
+  Write(*,'( " SYSTEM_CLOCK increment           = ", 1PE22.15)') delta
+  Print *,'' 
   Stop
 
 End Program test_timers
