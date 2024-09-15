@@ -3,7 +3,7 @@ SHELL=/bin/sh
 .SUFFIXES:
 .SUFFIXES: .o .F90 .f90
 
-FC=ifx
+FC=gfortran
 FCFLAGS=-O2 -march=native
 FXFLAGS=-O2 -march=native
 

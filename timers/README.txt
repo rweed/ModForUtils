@@ -18,12 +18,21 @@
   options. test_timers.F90 also tests the Fortran intrinsic CPU_TIME which
   is called directly.
 
+  The default compiler is gfortran. To build with different compiler
+  using make just type (for example ifx)
+
+  make FC=ifx
+
   You can change the number of iterations by adding -D__IMAX__=x and
   -D__JMAX=y where x and y are integer values to the compile options
-  for test_timers.F90 
+  for test_timers.F90. ie
+
+  make FC=gfortran-13 FCFLAGS="-O2 -march=native -D__linux__" FXFLAGS="-O2 -march= native  -D__linux__ -D__IMAX__=1000 -D__JMAX=100" 
+
+  Note the -D__linux__ is only needed for gfortran. The other compilers set
+  __linux__ by default on Linux systems.
 
   These programs were compiled and tested on a Linux Mint 21.3 system running on  an AMD Ryzen 5 5600x processor with the following compilers
-
 
   Intel 
    ifx       2024.1.0

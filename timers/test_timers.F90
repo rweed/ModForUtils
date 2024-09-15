@@ -1,14 +1,14 @@
 Program test_timers
 
-  USE ISO_FORTRAN_ENV, WP=>REAL64 
-  USE timers
-
 #ifndef __JMAX__
-  #define __JMAX__ 10000
+#define __JMAX__ 10000
 #endif
 #ifndef __IMAX__
- #define __IMAX__ 10000
+#define __IMAX__ 10000
 #endif
+
+  USE ISO_FORTRAN_ENV, WP=>REAL64 
+  USE timers
 
   Implicit NONE
 
@@ -20,6 +20,7 @@ Program test_timers
   Integer :: i, j
 
   niters = (__IMAX__)*(__JMAX__)
+
   Print *,'' 
   Print *,' *** Test of Fortran and C timer routines ***'
   Print *,''
@@ -28,10 +29,52 @@ Program test_timers
   sum    = 0.0_WP
   time_e = 0.0_WP
   time_s = 0.0_WP
+  Call timer_dt(time_s)
+  Do j=1, __JMAX__
+    Do i=1, __IMAX__
+      sum = sum + Real(i+j,WP) 
+    End Do 
+  End Do 
+  Call timer_dt(time_e)
+  delta = time_e - time_s
+  Write(*,'( " DATE_AND_TIME                    = ", 1PE22.15)') delta 
+  Write(buf,'(1PE22.15)') sum
+
+  sum    = 0.0_WP
+  time_e = 0.0_WP
+  time_s = 0.0_WP
+  Call CPU_TIME(time_s)
+  Do j=1, __JMAX__
+    Do i=1, __IMAX__
+      sum = sum + Real(i+j,WP) 
+    End Do 
+  End Do 
+  Call CPU_TIME(time_e)
+  delta = time_e - time_s
+  Write(*,'( " CPU_TIME                         = ", 1PE22.15)') delta 
+  Write(buf,'(1PE22.15)') sum
+
+  sum    = 0.0_WP
+  time_e = 0.0_WP
+  time_s = 0.0_WP
+  Call timer_sc(time_s)
+  Do j=1, __JMAX__
+    Do i=1, __IMAX__
+      sum = sum + Real(i+j,WP) 
+    End Do 
+  End Do 
+  Call timer_sc(time_e)
+  delta = time_e - time_s
+  Write(*,'( " SYSTEM_CLOCK                     = ", 1PE22.15)') delta
+  Write(buf,'(1PE22.15)') sum
+
+  sum    = 0.0_WP
+  time_e = 0.0_WP
+  time_s = 0.0_WP
   Call timer_gtd(time_s)
   Do j=1, __JMAX__ 
     Do i=1, __IMAX__
-      sum = sum + REAL(i+j,WP) 
+      sum = sum + Real(i+j,WP) 
     End Do 
   End Do 
   Call timer_gtd(time_e)
@@ -45,7 +88,7 @@ Program test_timers
   Call timer_cgt(time_s, CLOCK_MONOTONIC)
   Do j=1, __JMAX__
     Do i=1, __IMAX__
-      sum = sum + REAL(i+j,WP) 
+      sum = sum + Real(i+j,WP) 
     End Do 
   End Do 
   Call timer_cgt(time_e, CLOCK_MONOTONIC)
@@ -59,7 +102,7 @@ Program test_timers
   Call timer_cgt(time_s, CLOCK_REALTIME)
   Do j=1, __JMAX__
     Do i=1, __IMAX__
-      sum = sum + REAL(i+j,WP) 
+      sum = sum + Real(i+j,WP) 
     End Do 
   End Do 
   Call timer_cgt(time_e, CLOCK_REALTIME)
@@ -74,7 +117,7 @@ Program test_timers
   Call timer_cgt(time_s, CLOCK_THREAD_CPUTIME_ID)
   Do j=1, __JMAX__
     Do i=1, __IMAX__
-      sum = sum + REAL(i+j,WP) 
+      sum = sum + Real(i+j,WP) 
     End Do 
   End Do 
   Call timer_cgt(time_e, CLOCK_THREAD_CPUTIME_ID)
@@ -83,50 +126,8 @@ Program test_timers
   Write(buf,'(1PE22.15)') sum
 #endif
  
-  sum    = 0.0_WP
-  time_e = 0.0_WP
-  time_s = 0.0_WP
-  Call timer_dt(time_s)
-  Do j=1, __JMAX__
-    Do i=1, __IMAX__
-      sum = sum + REAL(i+j,WP) 
-    End Do 
-  End Do 
-  Call timer_dt(time_e)
-  delta = time_e - time_s
-  Write(*,'( " DATE_AND_TIME                    = ", 1PE22.15)') delta 
-  Write(buf,'(1PE22.15)') sum
-
-  sum    = 0.0_WP
-  time_e = 0.0_WP
-  time_s = 0.0_WP
-  Call CPU_TIME(time_s)
-  Do j=1, __JMAX__
-    Do i=1, __IMAX__
-      sum = sum + REAL(i+j,WP) 
-    End Do 
-  End Do 
-  Call CPU_TIME(time_e)
-  delta = time_e - time_s
-  Write(*,'( " CPU_TIME                         = ", 1PE22.15)') delta 
-  Write(buf,'(1PE22.15)') sum
-
-  sum    = 0.0_WP
-  time_e = 0.0_WP
-  time_s = 0.0_WP
-  Call timer_sc(time_s)
-  Do j=1, __JMAX__
-    Do i=1, __IMAX__
-      sum = sum + REAL(i+j,WP) 
-    End Do 
-  End Do 
-  Call timer_sc(time_e)
-  delta = time_e - time_s
-  Write(*,'( " SYSTEM_CLOCK                     = ", 1PE22.15)') delta
-  Write(buf,'(1PE22.15)') sum
-
   Print *,''
-  Print *,'DATE_AND_TIME and SYSTEM_CLOCK increments'
+  Print *,'DATE_AND_TIME, CPU_TIME and SYSTEM_CLOCK increments'
   Print *,''
   time_e = 0.0_WP
   time_s = 0.0_WP
@@ -137,6 +138,17 @@ Program test_timers
   End Do
   delta = time_e - time_s
   Write(*,'( " DATE_AND_TIME increment          = ", 1PE22.15)') delta
+
+  time_e = 0.0_WP
+  time_s = 0.0_WP
+  Call CPU_TIME(time_s)
+  Do
+    Call CPU_TIME(time_e)
+    If (time_e > time_s) EXIT
+  End Do
+  delta = time_e - time_s
+  Write(*,'( " CPU_TIME increment               = ", 1PE22.15)') delta
+
   time_e = 0.0_WP
   time_s = 0.0_WP
   Call timer_sc(time_s)
@@ -147,6 +159,7 @@ Program test_timers
   delta = time_e - time_s
   Write(*,'( " SYSTEM_CLOCK increment           = ", 1PE22.15)') delta
   Print *,'' 
+
   Stop
 
 End Program test_timers
